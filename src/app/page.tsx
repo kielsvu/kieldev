@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-import TwinGalaxyRings from '@/components/TwinGalaxyRings'
+import BlackHole from '@/components/BlackHole'
 import Navbar from '@/components/ui/Navbar'
 import Hero from '@/components/sections/Hero'
 import About from '@/components/sections/About'
@@ -62,24 +62,31 @@ export default function Home() {
   }, [])
 
   return (
-    <main style={{ position: 'relative', overflowX: 'hidden' }}>
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 0,
-          pointerEvents: 'none',
-        }}
-      >
-        <TwinGalaxyRings
-          background="#000000"
-          colors={["#A050FF", "#CC99DD"]}
-          speed={8}
-          armThickness={60}
-          tilt={{ tilt: 26, sideTilt: -12 }}
-        />
-      </div>
+    <main style={{      {/* Original Jhner.dev BlackHole background */}
+      <BlackHole
+        particleCount={900}
+        particleSize={3}
+        colors={['#B284FF', '#D6BEFF', '#FFFFFF']}
+        outerRadius={100}
+        tilt={18}
+        tiltSideway={160}
+        trail={46}
+        orbitSpeed={4}
+        pullSpeed={0}
+      />
+
+t 85%)',
+      <BlackHole
+        particleCount={900}
+        particleSize={3}
+        colors={['#B284FF', '#D6BEFF', '#FFFFFF']}
+        outerRadius={100}
+        tilt={18}
+        tiltSideway={160}
+        trail={46}
+        orbitSpeed={4}
+        pullSpeed={0}
+      />
 
       <div style={{ position: 'relative', zIndex: 2 }}>
         <Navbar />
