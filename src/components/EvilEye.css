@@ -1,11 +1,19 @@
 .evil-eye-container {
-  width: 100%;
-  height: 100%;
+  position: fixed;
+  inset: -2px;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
   overflow: hidden;
+  background: #05010a;
+  pointer-events: none;
 }
 
 .evil-eye-container canvas {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
+  max-width: none;
+  max-height: none;
 }
