@@ -62,7 +62,7 @@ export default function Home() {
   }, [])
 
   return (
-    <main style={{      {/* Original Jhner.dev BlackHole background */}
+    <main style={{ position: 'relative', overflow: 'hidden' }}>
       <BlackHole
         particleCount={900}
         particleSize={3}
