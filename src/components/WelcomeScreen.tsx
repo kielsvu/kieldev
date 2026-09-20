@@ -194,7 +194,7 @@ export default function WelcomeScreen() {
             color: 'rgba(255,255,255,0.7)',
           }}
         >
-          Kiel
+          kiel.dev
         </motion.div>
       </motion.div>
     </div>
