@@ -152,7 +152,6 @@ export default function About() {
                 }}
               >
                 <div>Kiel</div>
-                <div>Torres</div>
               </div>
             </motion.div>
 
@@ -176,7 +175,7 @@ export default function About() {
                 maxWidth: isMobile ? "100%" : "490px",
               }}
             >
-              I’m a senior high school programming student with a strong interest in frontend development and modern web design. I’m continuously developing my skills through hands-on projects and enjoy creating responsive, functional, and well-structured websites.
+              I’m a first year IT student with 2 years of experience in programming and web development. I enjoy building responsive, functional, and well-structured websites while continuously improving my skills through hands-on projects.
             </motion.p>
 
             {}
