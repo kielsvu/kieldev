@@ -161,7 +161,7 @@ export default function Navbar() {
             letterSpacing: '0.1em',
           }}
         >
-          Kiel
+         kiel.dev
         </span>
 
         {!isMobile && (
