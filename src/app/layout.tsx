@@ -2,8 +2,8 @@ import "./globals.css";
 import RefreshRedirect from '@/components/RefreshRedirect'
 
 export const metadata = {
-  title: "Kiel",
-  description: "Agustin Jhoner's personal portfolio, focused on web development and modern UI.",
+  title: "kiel.dev",
+  description: "kiel personal portfolio, focused on web development and modern UI.",
 };
 
 export default function RootLayout({
