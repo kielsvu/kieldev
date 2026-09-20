@@ -29,10 +29,6 @@ const cardVariants = {
   exit: { opacity: 0, y: -20 },
 }
 
-const certVariants = {
-  initial: { opacity: 0, y: 25 },
-  animate: { opacity: 1, y: 0 },
-}
 
 const techVariants = {
   initial: { opacity: 0, y: 20 },
@@ -70,11 +66,9 @@ const TAB_LABELS: Record<Tab, string> = {
 }
 
 export default function PortfolioShowcase() {
-  const { projects, certificates, techStacks, loading } = usePortfolio()
+  const { projects, techStacks, loading } = usePortfolio()
 
   const [activeTab, setActiveTab] = useState<Tab>('projects')
-  const [previewOpen, setPreviewOpen] = useState(false)
-  const [previewImage, setPreviewImage] = useState('')
   const [showAllProjects, setShowAllProjects] = useState(false)
 
   // Memoize sliced list — avoids recomputing on unrelated re-renders
@@ -89,61 +83,14 @@ export default function PortfolioShowcase() {
     if (tab !== 'projects') setShowAllProjects(false)
   }, [])
 
-  // Stable preview close handler
-  const closePreview = useCallback(() => setPreviewOpen(false), [])
-
   // Stable toggle handler
   const toggleShowAll = useCallback(
     () => setShowAllProjects((v) => !v),
     []
   )
 
-  // Stable cert click handler — uses a ref to avoid stale closure without recreating per item
-  const openPreview = useCallback((url: string) => {
-    setPreviewImage(url)
-    setPreviewOpen(true)
-  }, [])
-
   return (
     <>
-      {/* PREVIEW MODAL
-          — backdrop-blur removed from overlay; replaced with bg-black/92 which
-            achieves near-identical darkening without a full compositing layer.
-            The blur was only on the overlay bg, not the image itself, so visually
-            the difference is imperceptible at 90%+ black coverage.
-      */}
-      <AnimatePresence>
-        {previewOpen && (
-          <motion.div
-            variants={previewOverlayVariants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            className="fixed inset-0 z-[999] bg-black/92 flex items-center justify-center px-6"
-          >
-            <button
-              onClick={closePreview}
-              className="absolute top-6 right-6 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition"
-            >
-              <X size={18} />
-            </button>
-
-            <motion.img
-              variants={previewImgVariants}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              transition={previewImgTransition}
-              src={previewImage}
-              // Hint browser to decode off main thread
-              decoding="async"
-              loading="lazy"
-              className="max-w-[88vw] max-h-[88vh] rounded-3xl object-contain"
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       <section
         id="portfolio"
         className="w-full max-w-[1450px] mx-auto px-8 md:px-12 lg:px-20 pt-24 pb-24 text-white"
@@ -161,7 +108,7 @@ export default function PortfolioShowcase() {
             Portfolio Showcase
           </h1>
           <p className="text-white/55 max-w-xl mx-auto text-sm md:text-base">
-            Explore my journey through projects, certifications, and technical expertise.
+            Explore my projects and technical expertise.
           </p>
         </motion.div>
 
@@ -273,49 +220,9 @@ export default function PortfolioShowcase() {
               </div>
             )}
 
-            {/* CERTIFICATES
-                — backdrop-blur-xl on each card removed; bg-white/5 kept as-is.
-                  The blur on 10–20 cards simultaneously was causing layer explosion
-                  on mobile GPUs. bg opacity slightly raised to bg-white/6 to
-                  compensate for no blur — visually the same dark frosted look.
-                — whileInView kept but viewport once:true added so observers
-                  are released after first trigger.
-            */}
-            {activeTab === 'certificates' && (
-              <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 px-1">
-                {!loading &&
-                  certificates.map((item, i) => (
-                    <motion.div
-                      key={item.id}
-                      variants={certVariants}
-                      initial="initial"
-                      whileInView="animate"
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: i * 0.04 }}
-                      whileHover={{ y: -4 }}
-                      onClick={() => openPreview(item.image_url)}
-                      className="cursor-pointer rounded-[26px] border border-white/10 bg-white/[0.07] p-4"
-                    >
-                      <div className="rounded-2xl overflow-hidden border border-white/10 h-56">
-                        <img
-                          src={item.image_url}
-                          alt={item.title}
-                          decoding="async"
-                          loading="lazy"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <h3 className="mt-4 text-[15px] font-semibold text-center text-white/90">
-                        {item.title}
-                      </h3>
-                    </motion.div>
-                  ))}
-              </div>
-            )}
-
             {/* TECH STACK
                 — backdrop-blur-xl on each card removed; bg-white/[0.04] kept.
-                  Same reasoning as certificates — N simultaneous blur layers
+                  The glow div is mounted only while hovered to reduce idle GPU compositing layers.
                   on low-end GPUs causes dropped frames.
                 — The glow div (blur-2xl) is now conditionally rendered only on
                   hover via a React state on the card, rather than being in the DOM
