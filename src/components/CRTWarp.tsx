@@ -236,7 +236,8 @@ export default function CRTWarp({
       antialias: false,
       alpha: true,
       powerPreference: 'high-performance',
-      preserveDrawingBuffer: true, antialias: false, alpha: false, powerPreference: 'low-power' });
+      preserveDrawingBuffer: true,
+    });
     rendererRef.current = renderer;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1));
