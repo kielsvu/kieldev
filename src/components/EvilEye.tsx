@@ -232,7 +232,7 @@ export default function EvilEye({
       const width = Math.max(1, window.innerWidth)
       const height = Math.max(1, window.innerHeight)
 
-      renderer.setSize(width, height, false)
+      renderer.setSize(width, height)
 
       if (program) {
         program.uniforms.uResolution.value = [
