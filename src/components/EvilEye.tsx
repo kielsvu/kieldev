@@ -229,13 +229,22 @@ export default function EvilEye({
     let program: Program
 
     function resize() {
-      renderer.setSize(container.offsetWidth, container.offsetHeight)
+      const width = Math.max(1, window.innerWidth)
+      const height = Math.max(1, window.innerHeight)
+
+      renderer.setSize(width, height, false)
+
       if (program) {
-        program.uniforms.uResolution.value = [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height]
+        program.uniforms.uResolution.value = [
+          gl.canvas.width,
+          gl.canvas.height,
+          gl.canvas.width / gl.canvas.height
+        ]
       }
     }
 
     window.addEventListener('resize', resize)
+    window.addEventListener('orientationchange', resize)
     resize()
 
     const geometry = new Triangle(gl)
@@ -280,6 +289,7 @@ export default function EvilEye({
     return () => {
       cancelAnimationFrame(animationFrameId)
       window.removeEventListener('resize', resize)
+      window.removeEventListener('orientationchange', resize)
       container.removeEventListener('mousemove', onMouseMove)
       container.removeEventListener('mouseleave', onMouseLeave)
       if (gl.canvas.parentNode === container) container.removeChild(gl.canvas)
