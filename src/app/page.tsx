@@ -62,7 +62,7 @@ export default function Home() {
   }, [])
 
   return (
-    <main style={{ position: 'relative', overflow: 'hidden' }}>
+    <main style={{ position: 'relative', overflowX: 'hidden' }}>
       <div
         aria-hidden="true"
         style={{
