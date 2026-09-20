@@ -246,30 +246,15 @@ export default function CRTWarp({
     renderer.domElement.style.display = 'block';
     container.appendChild(renderer.domElement);
 
-    // Mobile browsers can change the viewport height while the address bar
-    // expands/collapses during scrolling. Resizing the WebGL drawing buffer
-    // on every one of those changes can briefly clear the canvas.
+    // Keep the WebGL drawing buffer stable while mobile browsers are
+    // changing viewport height during scroll/address-bar transitions.
     let lastWidth = 0;
     let lastHeight = 0;
-
-    const isMobileViewport = () =>
-      window.matchMedia('(max-width: 768px)').matches ||
-      navigator.maxTouchPoints > 0;
+    let resizeFrame = 0;
 
     const resize = (force = false) => {
       const width = Math.max(container.clientWidth, 1);
       const height = Math.max(container.clientHeight, 1);
-
-      // On touch/mobile devices, ignore height-only viewport changes caused
-      // by scrolling and the browser UI. Orientation/width changes still resize.
-      if (
-        !force &&
-        isMobileViewport() &&
-        width === lastWidth &&
-        height !== lastHeight
-      ) {
-        return;
-      }
 
       if (!force && width === lastWidth && height === lastHeight) return;
 
@@ -282,7 +267,28 @@ export default function CRTWarp({
       );
     };
 
-    const resizeObserver = new ResizeObserver(() => resize());
+    const scheduleResize = () => {
+      if (resizeFrame) return;
+      resizeFrame = window.requestAnimationFrame(() => {
+        resizeFrame = 0;
+
+        // During touch scrolling, ignore height-only viewport changes.
+        // Width changes are still applied for rotation/responsive layout.
+        const width = Math.max(container.clientWidth, 1);
+        const height = Math.max(container.clientHeight, 1);
+        const touchDevice =
+          window.matchMedia('(max-width: 768px)').matches ||
+          navigator.maxTouchPoints > 0;
+
+        if (touchDevice && width === lastWidth && height !== lastHeight) {
+          return;
+        }
+
+        resize();
+      });
+    };
+
+    const resizeObserver = new ResizeObserver(scheduleResize);
     resizeObserver.observe(container);
     resize(true);
 
@@ -321,6 +327,7 @@ export default function CRTWarp({
     return () => {
       if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
       resizeObserver.disconnect();
+    if (resizeFrame) window.cancelAnimationFrame(resizeFrame);
       visibilityObserver.disconnect();
       container.removeEventListener('pointermove', onPointerMove);
       container.removeEventListener('pointerleave', onPointerLeave);
