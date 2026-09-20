@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-import CRTWarp from '@/components/CRTWarp'
+import EvilEye from '@/components/EvilEye'
 import Navbar from '@/components/ui/Navbar'
 import Hero from '@/components/sections/Hero'
 import About from '@/components/sections/About'
@@ -72,27 +72,17 @@ export default function Home() {
           pointerEvents: 'none',
         }}
       >
-        <CRTWarp
-          color="#8064A8"
+        <EvilEye
+          eyeColor="#8064A8"
+          intensity={1.5}
+          pupilSize={0.6}
+          irisWidth={0.25}
+          glowIntensity={0.35}
+          scale={0.8}
+          noiseScale={1.0}
+          pupilFollow={1.0}
+          flameSpeed={1.0}
           backgroundColor="#05010a"
-          speed={0.5}
-          curvature={0.25}
-          scanlineStrength={0.25}
-          scanlineFrequency={200}
-          waveAmplitude={0.3}
-          waveFrequency={2.5}
-          bloom={1}
-          bloomRadius={1}
-          noise={0.1}
-          vignette={0}
-          brightness={1.25}
-          pixelation={1}
-          rgbShift={0.015}
-          mouseReact={false}
-          mouseStrength={0.5}
-          dpr={1}
-          fps={30}
-          style={{ width: '100%', height: '100%' }}
         />
       </div>
 
