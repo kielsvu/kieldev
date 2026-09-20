@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-import EvilEye from '@/components/EvilEye'
+import TwinGalaxyRings from '@/components/TwinGalaxyRings'
 import Navbar from '@/components/ui/Navbar'
 import Hero from '@/components/sections/Hero'
 import About from '@/components/sections/About'
@@ -72,17 +72,12 @@ export default function Home() {
           pointerEvents: 'none',
         }}
       >
-        <EvilEye
-          eyeColor="#8064A8"
-          intensity={1.5}
-          pupilSize={0.6}
-          irisWidth={0.25}
-          glowIntensity={0.35}
-          scale={0.8}
-          noiseScale={1.0}
-          pupilFollow={1.0}
-          flameSpeed={1.0}
-          backgroundColor="#05010a"
+        <TwinGalaxyRings
+          background="#000000"
+          colors={["#A050FF", "#CC99DD"]}
+          speed={8}
+          armThickness={60}
+          tilt={{ tilt: 26, sideTilt: -12 }}
         />
       </div>
 
