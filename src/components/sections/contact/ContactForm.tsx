@@ -133,7 +133,7 @@ export default function ContactForm() {
       <div className="border-t border-white/10 pt-5 mt-6">
         <p className="text-sm text-white/55 mb-4">Connect With Me</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <a href="mailto:jhnergarcia@gmail.com" className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm hover:bg-white/5 transition">Email <span className="text-white/35">↗</span></a>
+          <a href="mailto:kiel.dev this is a test email not working" className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm hover:bg-white/5 transition">Email <span className="text-white/35">↗</span></a>
         </div>
       </div>
     </motion.div>
