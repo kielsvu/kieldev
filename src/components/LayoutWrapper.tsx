@@ -24,7 +24,7 @@ export default function LayoutWrapper({
             fontSize: "12px",
           }}
         >
-          © 2026 Agustin Jhoner. All rights reserved.
+          © 2026 kiel.dev All rights reserved.
         </div>
       )}
     </>
