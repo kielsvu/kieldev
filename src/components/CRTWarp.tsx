@@ -246,16 +246,45 @@ export default function CRTWarp({
     renderer.domElement.style.display = 'block';
     container.appendChild(renderer.domElement);
 
-    const resize = () => {
+    // Mobile browsers can change the viewport height while the address bar
+    // expands/collapses during scrolling. Resizing the WebGL drawing buffer
+    // on every one of those changes can briefly clear the canvas.
+    let lastWidth = 0;
+    let lastHeight = 0;
+
+    const isMobileViewport = () =>
+      window.matchMedia('(max-width: 768px)').matches ||
+      navigator.maxTouchPoints > 0;
+
+    const resize = (force = false) => {
       const width = Math.max(container.clientWidth, 1);
       const height = Math.max(container.clientHeight, 1);
+
+      // On touch/mobile devices, ignore height-only viewport changes caused
+      // by scrolling and the browser UI. Orientation/width changes still resize.
+      if (
+        !force &&
+        isMobileViewport() &&
+        width === lastWidth &&
+        height !== lastHeight
+      ) {
+        return;
+      }
+
+      if (!force && width === lastWidth && height === lastHeight) return;
+
+      lastWidth = width;
+      lastHeight = height;
       renderer.setSize(width, height, false);
-      material.uniforms.uResolution.value.set(renderer.domElement.width, renderer.domElement.height);
+      material.uniforms.uResolution.value.set(
+        renderer.domElement.width,
+        renderer.domElement.height
+      );
     };
 
-    const resizeObserver = new ResizeObserver(resize);
+    const resizeObserver = new ResizeObserver(() => resize());
     resizeObserver.observe(container);
-    resize();
+    resize(true);
 
     const clock = new THREE.Clock();
     const visibilityObserver = new IntersectionObserver(([entry]) => {
@@ -329,7 +358,9 @@ export default function CRTWarp({
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, dpr));
     const container = containerRef.current;
     if (container) {
-      renderer.setSize(Math.max(container.clientWidth, 1), Math.max(container.clientHeight, 1), false);
+      const width = Math.max(container.clientWidth, 1);
+      const height = Math.max(container.clientHeight, 1);
+      renderer.setSize(width, height, false);
       uniforms.uResolution.value.set(renderer.domElement.width, renderer.domElement.height);
     }
   }, [
