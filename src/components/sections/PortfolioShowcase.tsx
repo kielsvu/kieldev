@@ -11,10 +11,8 @@ import usePortfolio from '@/hooks/usePortfolio'
 import PortfolioCard from './PortfolioCard'
 import TechStackIcon from './TechStackIcon'
 
-// Defined outside component — stable reference, no recreation on render
 const smoothEase: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
-// Stable animation variants — defined outside avoids object recreation every render
 const tabContentVariants = {
   initial: { opacity: 0, y: 25 },
   animate: { opacity: 1, y: 0 },
@@ -28,7 +26,6 @@ const cardVariants = {
   animate: { opacity: 1, y: 0 },
   exit: { opacity: 0, y: -20 },
 }
-
 
 const techVariants = {
   initial: { opacity: 0, y: 20 },
@@ -73,36 +70,26 @@ export default function PortfolioShowcase() {
   const [previewImage, setPreviewImage] = useState('')
   const [showAllProjects, setShowAllProjects] = useState(false)
 
-  // Memoize sliced list — avoids recomputing on unrelated re-renders
   const displayedProjects = useMemo(
     () => (showAllProjects ? projects : projects.slice(0, 3)),
     [showAllProjects, projects]
   )
 
-  // Stable tab handler — avoids recreating inline arrow per render
   const handleTabClick = useCallback((tab: Tab) => {
     setActiveTab(tab)
     if (tab !== 'projects') setShowAllProjects(false)
   }, [])
 
-  // Stable preview close handler
   const closePreview = useCallback(() => setPreviewOpen(false), [])
 
-  // Stable toggle handler
   const toggleShowAll = useCallback(
     () => setShowAllProjects((v) => !v),
     []
   )
 
-
   return (
     <>
       {/* PREVIEW MODAL
-          — backdrop-blur removed from overlay; replaced with bg-black/92 which
-            achieves near-identical darkening without a full compositing layer.
-            The blur was only on the overlay bg, not the image itself, so visually
-            the difference is imperceptible at 90%+ black coverage.
-      */}
       <AnimatePresence>
         {previewOpen && (
           <motion.div
@@ -126,7 +113,6 @@ export default function PortfolioShowcase() {
               exit="exit"
               transition={previewImgTransition}
               src={previewImage}
-              // Hint browser to decode off main thread
               decoding="async"
               loading="lazy"
               className="max-w-[88vw] max-h-[88vh] rounded-3xl object-contain"
@@ -139,11 +125,10 @@ export default function PortfolioShowcase() {
         id="portfolio"
         className="w-full max-w-[1450px] mx-auto px-8 md:px-12 lg:px-20 pt-24 pb-24 text-white"
       >
-        {/* HEADER */}
+        {}
         <motion.div
           initial={{ opacity: 0, y: 45 }}
           whileInView={{ opacity: 1, y: 0 }}
-          // viewport once:true — fires only once, kills the IntersectionObserver after
           viewport={{ once: true }}
           transition={{ duration: 0.9 }}
           className="text-center mb-8"
@@ -157,9 +142,6 @@ export default function PortfolioShowcase() {
         </motion.div>
 
         {/* TAB BAR
-            — backdrop-blur-xl replaced with bg-white/8 (slightly higher opacity)
-              so the frosted look is preserved without a GPU compositing layer.
-        */}
         <div className="flex justify-center mb-10">
           <div className="w-full max-w-3xl rounded-full border border-white/10 bg-white/8 backdrop-blur-sm p-2 flex gap-2">
             {TABS.map((tab) => (
@@ -187,16 +169,10 @@ export default function PortfolioShowcase() {
             exit="exit"
             transition={tabContentTransition}
           >
-            {/* PROJECTS */}
+            {}
             {activeTab === 'projects' && (
               <div className="space-y-8">
                 {/*
-                  Removed `layout` from this wrapper — layout animation forces
-                  Framer to measure all DOM nodes every frame during the transition,
-                  which is the single most expensive operation in this file.
-                  The grid reflow still looks smooth because the child cards
-                  animate in/out with opacity+scale+y.
-                */}
                 <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 px-1">
                   <AnimatePresence mode="popLayout">
                     {!loading &&
@@ -226,7 +202,7 @@ export default function PortfolioShowcase() {
                   </AnimatePresence>
                 </div>
 
-                {/* SEE MORE / LESS */}
+                {}
                 {!loading && projects.length > 3 && (
                   <div className="flex justify-center">
                     <motion.button
@@ -264,13 +240,6 @@ export default function PortfolioShowcase() {
               </div>
             )}
             {/* TECH STACK
-                — backdrop-blur-xl on each card removed; bg-white/[0.04] kept.
-                  on low-end GPUs causes dropped frames.
-                — The glow div (blur-2xl) is now conditionally rendered only on
-                  hover via a React state on the card, rather than being in the DOM
-                  at opacity-0. This eliminates the compositing layer for every
-                  card at rest.
-            */}
             {activeTab === 'techstack' && (
               <div className="min-h-[360px] flex justify-center">
                 <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 max-w-5xl w-full">
@@ -288,9 +257,6 @@ export default function PortfolioShowcase() {
   )
 }
 
-// Extracted into its own component so hover state is isolated —
-// prevents the glow div from causing a full-list re-render on hover.
-// The glow div is mounted only while hovered, removing the idle GPU layer.
 function TechCard({
   item,
   index,
@@ -313,7 +279,7 @@ function TechCard({
       className="group rounded-[24px] border border-white/10 bg-white/[0.07] flex flex-col items-center justify-center gap-3 h-[125px] w-[125px] mx-auto"
     >
       <div className="relative flex items-center justify-center [--tech-icon-bg:#080808]">
-        {/* Glow div only mounted while hovered — eliminates idle GPU compositing layer */}
+        {}
         {hovered && (
           <div className="absolute w-[70px] h-[70px] rounded-full bg-white/20 blur-2xl opacity-100" />
         )}
