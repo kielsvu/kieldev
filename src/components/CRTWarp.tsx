@@ -246,20 +246,28 @@ export default function CRTWarp({
     renderer.domElement.style.display = 'block';
     container.appendChild(renderer.domElement);
 
-    // Keep the WebGL drawing buffer stable while mobile browsers are
-    // changing viewport height during scroll/address-bar transitions.
+    // Keep the WebGL canvas tied to the layout viewport instead of the
+    // mobile visual viewport. Mobile browsers change visualViewport.height
+    // while the address bar moves during scrolling, which can expose a
+    // temporary compositor gap if the WebGL drawing buffer is resized.
     let lastWidth = 0;
     let lastHeight = 0;
     let resizeFrame = 0;
 
+    const getStableViewportSize = () => {
+      const width = Math.max(window.innerWidth, 1);
+      const height = Math.max(window.innerHeight, 1);
+      return { width, height };
+    };
+
     const resize = (force = false) => {
-      const width = Math.max(container.clientWidth, 1);
-      const height = Math.max(container.clientHeight, 1);
+      const { width, height } = getStableViewportSize();
 
       if (!force && width === lastWidth && height === lastHeight) return;
 
       lastWidth = width;
       lastHeight = height;
+
       renderer.setSize(width, height, false);
       material.uniforms.uResolution.value.set(
         renderer.domElement.width,
@@ -269,27 +277,19 @@ export default function CRTWarp({
 
     const scheduleResize = () => {
       if (resizeFrame) return;
+
       resizeFrame = window.requestAnimationFrame(() => {
         resizeFrame = 0;
-
-        // During touch scrolling, ignore height-only viewport changes.
-        // Width changes are still applied for rotation/responsive layout.
-        const width = Math.max(container.clientWidth, 1);
-        const height = Math.max(container.clientHeight, 1);
-        const touchDevice =
-          window.matchMedia('(max-width: 768px)').matches ||
-          navigator.maxTouchPoints > 0;
-
-        if (touchDevice && width === lastWidth && height !== lastHeight) {
-          return;
-        }
-
         resize();
       });
     };
 
-    const resizeObserver = new ResizeObserver(scheduleResize);
-    resizeObserver.observe(container);
+    // Resize only for real viewport/layout changes. Do not observe the
+    // full-screen container because its visual height can fluctuate while
+    // the user scrolls on mobile.
+    window.addEventListener('resize', scheduleResize, { passive: true });
+    window.addEventListener('orientationchange', scheduleResize, { passive: true });
+
     resize(true);
 
     const clock = new THREE.Clock();
@@ -326,7 +326,8 @@ export default function CRTWarp({
 
     return () => {
       if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
-      resizeObserver.disconnect();
+      window.removeEventListener('resize', scheduleResize);
+    window.removeEventListener('orientationchange', scheduleResize);
     if (resizeFrame) window.cancelAnimationFrame(resizeFrame);
       visibilityObserver.disconnect();
       container.removeEventListener('pointermove', onPointerMove);
