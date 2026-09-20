@@ -73,7 +73,7 @@ export default function Home() {
         }}
       >
         <CRTWarp
-          color="#C8A2FF"
+          color="#8064A8"
           backgroundColor="#05010a"
           speed={0.5}
           curvature={0.25}
@@ -81,7 +81,7 @@ export default function Home() {
           scanlineFrequency={200}
           waveAmplitude={0.3}
           waveFrequency={2.5}
-          bloom={1.5}
+          bloom={1}
           bloomRadius={1}
           noise={0.1}
           vignette={0}
