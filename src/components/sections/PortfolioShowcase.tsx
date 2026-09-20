@@ -89,7 +89,7 @@ export default function PortfolioShowcase() {
 
   return (
     <>
-      {/* PREVIEW MODAL
+      {}
       <AnimatePresence>
         {previewOpen && (
           <motion.div
@@ -113,6 +113,7 @@ export default function PortfolioShowcase() {
               exit="exit"
               transition={previewImgTransition}
               src={previewImage}
+              
               decoding="async"
               loading="lazy"
               className="max-w-[88vw] max-h-[88vh] rounded-3xl object-contain"
@@ -129,6 +130,7 @@ export default function PortfolioShowcase() {
         <motion.div
           initial={{ opacity: 0, y: 45 }}
           whileInView={{ opacity: 1, y: 0 }}
+          
           viewport={{ once: true }}
           transition={{ duration: 0.9 }}
           className="text-center mb-8"
@@ -137,11 +139,11 @@ export default function PortfolioShowcase() {
             Portfolio Showcase
           </h1>
           <p className="text-white/55 max-w-xl mx-auto text-sm md:text-base">
-            Explore my journey through projects, certifications, and technical expertise.
+            Explore my journey through projects and technical expertise.
           </p>
         </motion.div>
 
-        {/* TAB BAR
+        {}
         <div className="flex justify-center mb-10">
           <div className="w-full max-w-3xl rounded-full border border-white/10 bg-white/8 backdrop-blur-sm p-2 flex gap-2">
             {TABS.map((tab) => (
@@ -172,7 +174,7 @@ export default function PortfolioShowcase() {
             {}
             {activeTab === 'projects' && (
               <div className="space-y-8">
-                {/*
+                {}
                 <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 px-1">
                   <AnimatePresence mode="popLayout">
                     {!loading &&
@@ -239,7 +241,7 @@ export default function PortfolioShowcase() {
                 )}
               </div>
             )}
-            {/* TECH STACK
+            {}
             {activeTab === 'techstack' && (
               <div className="min-h-[360px] flex justify-center">
                 <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 max-w-5xl w-full">
