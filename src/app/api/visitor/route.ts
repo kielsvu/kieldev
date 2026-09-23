@@ -58,8 +58,12 @@ function formatReferrer(referrer: string) {
 
 function formatTime(date = new Date()) {
   return new Intl.DateTimeFormat("en-US", {
-    dateStyle: "medium",
-    timeStyle: "medium",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
     timeZone: "Asia/Manila",
     timeZoneName: "short",
   }).format(date)
