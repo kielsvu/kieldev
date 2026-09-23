@@ -18,6 +18,20 @@ export default function Home() {
   const [showApp, setShowApp] = useState(true)
 
   useEffect(() => {
+    const reportVisit = () => {
+      fetch('/api/visitor', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          page: window.location.pathname,
+          referrer: document.referrer || 'Direct',
+        }),
+        keepalive: true,
+      }).catch(() => {})
+    }
+
+    reportVisit()
+
     const currentHash = window.location.hash
     const pathname = window.location.pathname
     if (currentHash === '#portfolio') {
