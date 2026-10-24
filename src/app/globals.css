@@ -19,10 +19,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  caret-color: transparent;
+  /* REMOVED: user-select: none — was blocking all text selection site-wide */
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto; /* JS handles scrolling; CSS smooth adds unwanted extra duration */
+  scrollbar-width: none;
 }
 
 body {
@@ -30,62 +33,36 @@ body {
   color: var(--text-primary);
   font-family: 'Syne', sans-serif;
   -webkit-font-smoothing: antialiased;
-}
-
-body {
   overflow-x: hidden;
-}
-html {
-  scroll-behavior: smooth;
-}
-
-* {
-  caret-color: transparent;
-  user-select: none;
-}
-
-
-::-webkit-scrollbar {
-  width: 0px;
-  height: 0px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: transparent;
-}
-
-
-html {
-  scrollbar-width: none;
-}
-
-
-body {
   -ms-overflow-style: none;
 }
 
-input,
-textarea {
+/* Re-enable selection only where it matters */
+p, h1, h2, h3, h4, h5, h6, span, a, li {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+input, textarea {
   caret-color: white;
+  user-select: text;
+  -webkit-user-select: text;
 }
 
-.custom-scroll::-webkit-scrollbar {
-  width: 6px;
+/* Reduced motion — Framer Motion respects this via MotionConfig in layout.tsx */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
-.custom-scroll::-webkit-scrollbar-track {
-  background: transparent;
-}
+::-webkit-scrollbar       { width: 0; height: 0; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: transparent; }
 
-.custom-scroll::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.12);
-  border-radius: 999px;
-}
-
-.custom-scroll::-webkit-scrollbar-thumb:hover {
-  background: rgba(255,255,255,0.2);
-}
+.custom-scroll::-webkit-scrollbar         { width: 6px; }
+.custom-scroll::-webkit-scrollbar-track   { background: transparent; }
+.custom-scroll::-webkit-scrollbar-thumb   { background: rgba(255,255,255,0.12); border-radius: 999px; }
+.custom-scroll::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
