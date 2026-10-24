@@ -1,160 +1,121 @@
 'use client'
 
-import { useState } from 'react'
-import { motion, AnimatePresence, Variants } from 'framer-motion'
-import { Send, User, Mail, MessageSquare, CheckCircle } from 'lucide-react'
+import { motion, Variants } from 'framer-motion'
+import { Send, User, Mail, MessageSquare } from 'lucide-react'
 
-const sp = { type: 'spring' as const, bounce: 0, duration: 0.55 }
+const smoothEase: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
 const fieldVariants: Variants = {
-  hidden: { opacity: 0, y: 22 },
-  show:   { opacity: 1, y: 0 },
+  hidden: { opacity: 0, y: 26 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: smoothEase },
+  },
 }
 
-const fieldTransition = { type: 'spring' as const, bounce: 0, duration: 0.5 }
-
 export default function ContactForm() {
-  const [sent, setSent] = useState(false)
-  const [loading, setLoading] = useState(false)
-
-  const handleSubmit = () => {
-    if (loading || sent) return
-    setLoading(true)
-    /* Stub — replace with your actual form endpoint */
-    setTimeout(() => { setLoading(false); setSent(true) }, 1200)
-  }
-
   return (
+    // Removed h-full — parent has no defined height so h-full collapses to 0
+    // Removed initial x:-40 slide — was making the card look left-offset on entry
     <motion.div
-      initial={{ opacity: 0, y: 28 }}
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={sp}
+      transition={{ duration: 0.7, ease: smoothEase }}
       viewport={{ once: false, amount: 0.2 }}
-      className="rounded-[28px] p-5 md:p-8 flex flex-col"
-      style={{
-        /* Glass — consistent with PortfolioCard */
-        backdropFilter: 'blur(8px) saturate(140%)',
-        WebkitBackdropFilter: 'blur(8px) saturate(140%)',
-        background: 'rgba(255,255,255,0.05)',
-        border: '1px solid rgba(255,255,255,0.11)',
-        boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.10), 0 8px 32px rgba(0,0,0,0.28)',
-      }}
+      className="rounded-[28px] border border-white/10 bg-white/[0.04] backdrop-blur-sm p-5 md:p-8 flex flex-col"
     >
-      <motion.div variants={fieldVariants} initial="hidden" whileInView="show"
-        viewport={{ once: false }} transition={{ ...fieldTransition, delay: 0.05 }}>
-        <h2 className="text-2xl md:text-3xl font-bold mb-3">Contact Me</h2>
-        <p className="text-sm mb-7" style={{ color: 'rgba(255,255,255,0.5)', lineHeight: 1.7 }}>
+      <motion.div
+        variants={fieldVariants}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: false }}
+        transition={{ delay: 0.05 }}
+      >
+        <h2 className="text-2xl md:text-3xl font-bold mb-3">
+          Contact Me
+        </h2>
+        <p className="text-sm text-white/50 mb-7">
           I'm always open to discussing new projects, collaboration opportunities and ideas.
           Feel free to get in touch.
         </p>
       </motion.div>
 
       <div className="space-y-4">
-        {/* Name */}
-        <motion.div variants={fieldVariants} initial="hidden" whileInView="show"
-          viewport={{ once: false }} transition={{ ...fieldTransition, delay: 0.10 }}>
+        <motion.div
+          variants={fieldVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: false }}
+          transition={{ delay: 0.1 }}
+        >
           <div className="relative">
-            <User className="absolute left-4 top-1/2 -translate-y-1/2" size={16}
-              style={{ color: 'rgba(255,255,255,0.4)' }} />
+            <User className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" size={16} />
             <input
               placeholder="Your Name"
-              aria-label="Your Name"
-              className="w-full rounded-2xl pl-12 pr-4 py-4 outline-none transition duration-200
-                focus:ring-1 focus:ring-white/40 focus-visible:ring-2 focus-visible:ring-white/50"
-              style={{ background: 'rgba(0,0,0,0.22)', border: '1px solid rgba(255,255,255,0.13)', color: 'white' }}
+              className="w-full rounded-2xl border border-white/15 bg-black/20 pl-12 pr-4 py-4 outline-none transition duration-200 focus:border-white focus:ring-1 focus:ring-white/40"
             />
           </div>
         </motion.div>
 
-        {/* Email */}
-        <motion.div variants={fieldVariants} initial="hidden" whileInView="show"
-          viewport={{ once: false }} transition={{ ...fieldTransition, delay: 0.15 }}>
+        <motion.div
+          variants={fieldVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: false }}
+          transition={{ delay: 0.16 }}
+        >
           <div className="relative">
-            <Mail className="absolute left-4 top-1/2 -translate-y-1/2" size={16}
-              style={{ color: 'rgba(255,255,255,0.4)' }} />
+            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" size={16} />
             <input
-              type="email"
               placeholder="Your Email"
-              aria-label="Your Email"
-              className="w-full rounded-2xl pl-12 pr-4 py-4 outline-none transition duration-200
-                focus:ring-1 focus:ring-white/40 focus-visible:ring-2 focus-visible:ring-white/50"
-              style={{ background: 'rgba(0,0,0,0.22)', border: '1px solid rgba(255,255,255,0.13)', color: 'white' }}
+              className="w-full rounded-2xl border border-white/15 bg-black/20 pl-12 pr-4 py-4 outline-none transition duration-200 focus:border-white focus:ring-1 focus:ring-white/40"
             />
           </div>
         </motion.div>
 
-        {/* Message */}
-        <motion.div variants={fieldVariants} initial="hidden" whileInView="show"
-          viewport={{ once: false }} transition={{ ...fieldTransition, delay: 0.20 }}>
+        <motion.div
+          variants={fieldVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: false }}
+          transition={{ delay: 0.22 }}
+        >
           <div className="relative">
-            <MessageSquare className="absolute left-4 top-5" size={16}
-              style={{ color: 'rgba(255,255,255,0.4)' }} />
+            <MessageSquare className="absolute left-4 top-5 text-white/40" size={16} />
             <textarea
               rows={5}
               placeholder="Your Message"
-              aria-label="Your Message"
-              className="w-full rounded-2xl pl-12 pr-4 py-4 outline-none resize-none transition duration-200
-                focus:ring-1 focus:ring-white/40 focus-visible:ring-2 focus-visible:ring-white/50"
-              style={{ background: 'rgba(0,0,0,0.22)', border: '1px solid rgba(255,255,255,0.13)', color: 'white' }}
+              className="w-full rounded-2xl border border-white/15 bg-black/20 pl-12 pr-4 py-4 outline-none resize-none transition duration-200 focus:border-white focus:ring-1 focus:ring-white/40"
             />
           </div>
         </motion.div>
 
-        {/* Send button — feedback on press (whileTap), NOT on hover */}
-        <motion.div variants={fieldVariants} initial="hidden" whileInView="show"
-          viewport={{ once: false }} transition={{ ...fieldTransition, delay: 0.25 }}>
-          <motion.button
-            whileTap={!sent && !loading
-              ? { scale: 0.97, transition: { type: 'spring', bounce: 0, duration: 0.14 } }
-              : undefined}
-            onClick={handleSubmit}
-            disabled={loading || sent}
-            className="w-full rounded-2xl py-4 flex items-center justify-center gap-2 transition-colors duration-200"
-            style={{
-              /* Minimum 44px height already satisfied by py-4 + text */
-              background: sent ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.09)',
-              border: '1px solid rgba(255,255,255,0.11)',
-              boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.09)',
-              color: sent ? 'rgba(255,255,255,0.55)' : 'white',
-              cursor: sent || loading ? 'default' : 'pointer',
-            }}
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              {sent ? (
-                <motion.span key="sent" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -6 }} transition={sp}
-                  className="flex items-center gap-2">
-                  <CheckCircle size={16} /> Message sent
-                </motion.span>
-              ) : loading ? (
-                <motion.span key="loading" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -6 }} transition={sp}
-                  className="flex items-center gap-2">
-                  <motion.span animate={{ rotate: 360 }} transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
-                    style={{ display: 'inline-block', width: 16, height: 16, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%' }} />
-                  Sending…
-                </motion.span>
-              ) : (
-                <motion.span key="idle" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -6 }} transition={sp}
-                  className="flex items-center gap-2">
-                  <Send size={16} /> Send Message
-                </motion.span>
-              )}
-            </AnimatePresence>
-          </motion.button>
-        </motion.div>
+        <motion.button
+          variants={fieldVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: false }}
+          transition={{ delay: 0.28 }}
+          whileHover={{ scale: 1.03, transition: { duration: 0.15 } }}
+          whileTap={{ scale: 0.97 }}
+          className="w-full rounded-2xl py-4 bg-white/10 border border-white/10 flex items-center justify-center gap-2"
+        >
+          <Send size={16} />
+          Send Message
+        </motion.button>
       </div>
 
-      <div className="mt-6 pt-5" style={{ borderTop: '1px solid rgba(255,255,255,0.09)' }}>
-        <p className="text-sm mb-4" style={{ color: 'rgba(255,255,255,0.5)' }}>Connect With Me</p>
-        <a
-          href="mailto:hello@kiel.dev"
-          className="inline-flex items-center gap-1 rounded-2xl px-4 py-3 text-sm transition-colors duration-200"
-          style={{ background: 'rgba(0,0,0,0.20)', border: '1px solid rgba(255,255,255,0.10)', color: 'rgba(255,255,255,0.65)' }}
-        >
-          Email <span style={{ color: 'rgba(255,255,255,0.35)' }}>↗</span>
-        </a>
+      <div className="border-t border-white/10 pt-5 mt-6">
+        <p className="text-sm text-white/55 mb-4">Connect With Me</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <a
+            href="mailto:kiel.dev this is a test email not working"
+            className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm hover:bg-white/5 transition"
+          >
+            Email <span className="text-white/35">↗</span>
+          </a>
+        </div>
       </div>
     </motion.div>
   )
