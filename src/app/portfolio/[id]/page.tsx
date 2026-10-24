@@ -1,6 +1,3 @@
-// ====== PORTFOLIO DETAIL PAGE ======
-// src/app/portfolio/[id]/page.tsx
-
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -272,6 +269,7 @@ export default function PortfolioDetailPage() {
                 <a
                   href={project.live_url}
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-[#111] to-[#181818] border border-white/10 hover:bg-white/5 hover:border-white/20 transition-all duration-300 text-sm"
                 >
                   <ExternalLink size={14} />
@@ -288,6 +286,7 @@ export default function PortfolioDetailPage() {
                 <a
                   href={project.github_url}
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-[#111] to-[#181818] border border-white/10 hover:bg-white/5 hover:border-white/20 transition-all duration-300 text-sm"
                 >
                   <GitBranch size={14} />
@@ -303,53 +302,53 @@ export default function PortfolioDetailPage() {
 
             {/* TECH */}
             {/* TECH */}
-<motion.div
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{
-    duration: 0.8,
-    delay: 0.08,
-    ease: [0.22, 1, 0.36, 1],
-  }}
->
-  <div className="flex items-center gap-2 mb-3">
-    <Code2 size={14} className="text-white/70" />
-    <p className="text-[13px] font-semibold">
-      Technologies Used
-    </p>
-  </div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{
+                duration: 0.8,
+                delay: 0.08,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <Code2 size={14} className="text-white/70" />
+                <p className="text-[13px] font-semibold">
+                  Technologies Used
+                </p>
+              </div>
 
-  <div className="flex flex-wrap gap-2">
-  {tech.map((t: string, i: number) => (
-    <motion.div
-  key={i}
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{
-    delay: 0.12 + i * 0.04,
-    duration: 0.5,
-    ease: [0.22, 1, 0.36, 1],
-  }}
-  className="flex items-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-br from-[#101010] to-[#181818] border border-white/10 text-[11px] text-white/75"
->
-  <Box size={11} className="text-white/40" />
-  {t.trim()}
-</motion.div>
-  ))}
-</div>
-</motion.div>
+              <div className="flex flex-wrap gap-2">
+                {tech.map((t: string, i: number) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{
+                      delay: 0.12 + i * 0.04,
+                      duration: 0.5,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                    className="flex items-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-br from-[#101010] to-[#181818] border border-white/10 text-[11px] text-white/75"
+                  >
+                    <Box size={11} className="text-white/40" />
+                    {t.trim()}
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
           </motion.div>
 
           {/* RIGHT */}
-<motion.div
-  initial={{ opacity: 0, x: 80 }}
-  animate={{ opacity: 1, x: 0 }}
-  transition={{
-    duration: 1,
-    ease: [0.22, 1, 0.36, 1],
-  }}
-  className="w-full pt-10 md:pt-14"
->
+          <motion.div
+            initial={{ opacity: 0, x: 80 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{
+              duration: 1,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="w-full pt-10 md:pt-14"
+          >
             {/* IMAGE */}
             {galleryImages.length > 0 && (
               <motion.div
