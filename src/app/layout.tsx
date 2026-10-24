@@ -1,5 +1,6 @@
 import "./globals.css";
-import RefreshRedirect from '@/components/RefreshRedirect'
+import { MotionConfig } from "framer-motion";
+import RefreshRedirect from '@/components/RefreshRedirect';
 
 export const metadata = {
   title: "kiel.dev",
@@ -14,9 +15,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <RefreshRedirect />
-        {children}
-        </body>
+        {/* reducedMotion="user" makes every Framer Motion animation
+            respect the OS-level "reduce motion" accessibility setting */}
+        <MotionConfig reducedMotion="user">
+          <RefreshRedirect />
+          {children}
+        </MotionConfig>
+      </body>
     </html>
   );
 }
