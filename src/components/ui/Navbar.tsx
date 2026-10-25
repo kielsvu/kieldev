@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 
-/* Spring preset — interruptible if nav re-mounts mid-flight */
 const sp = { type: 'spring' as const, bounce: 0, duration: 0.65 }
 
 export default function Navbar() {
@@ -14,7 +13,6 @@ export default function Navbar() {
   const [activeSection, setActiveSection] = useState('home')
   const [mounted, setMounted]             = useState(false)
   const [showNavbar, setShowNavbar]       = useState(false)
-  /* Mouse detection — hover effects only for pointer devices, not touch */
   const [hasHover, setHasHover]           = useState(false)
 
   useEffect(() => {
@@ -52,11 +50,6 @@ export default function Navbar() {
 
   if (!mounted) return null
 
-  /*
-   * Custom 520ms scroll — native behavior:'smooth' takes 1.5-2s on long pages
-   * which users perceive as a "2-second delay". This is noticeably faster.
-   * shortcut: easeInOutQuad only, upgrade to spring-scroll if needed
-   */
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault()
     const el = document.querySelector(targetId)
@@ -92,25 +85,20 @@ export default function Navbar() {
       transition={sp}
       style={{ position: 'fixed', top: 20, left: isMobile ? 20 : 60, right: isMobile ? 20 : 60, zIndex: 50 }}
     >
-      {/* ── Pill ── */}
       <div style={{
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         padding: '10px 24px', borderRadius: 999,
-        /* saturate(180%) gives Apple's frosted-glass depth to the existing blur */
         backdropFilter: 'blur(12px) saturate(180%)',
         WebkitBackdropFilter: 'blur(12px) saturate(180%)',
         backgroundColor: scrolled ? 'rgba(13,13,13,0.85)' : 'rgba(13,13,13,0.5)',
-        /* Light-catching top edge — subtle but adds depth */
         boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.08)',
         border: '1px solid var(--border)',
         transition: 'background-color 0.3s ease',
       }}>
-        {/* Logo */}
         <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 15, fontWeight: 600, color: '#ffffff', letterSpacing: '0.05em' }}>
           kiel.dev
         </span>
 
-        {/* Desktop links */}
         {!isMobile && (
           <div style={{ display: 'flex', gap: 40 }}>
             {navItems.map(({ label, id }) => {
@@ -139,7 +127,6 @@ export default function Navbar() {
           </div>
         )}
 
-        {/* Hamburger — proper <button> for keyboard + 44×44 touch target */}
         {isMobile && (
           <button
             onClick={() => setOpen(v => !v)}
@@ -161,7 +148,6 @@ export default function Navbar() {
         )}
       </div>
 
-      {/* ── Mobile drawer — spring so it's interruptible ── */}
       <AnimatePresence>
         {isMobile && open && (
           <motion.div
