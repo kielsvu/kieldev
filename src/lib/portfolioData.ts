@@ -17,7 +17,16 @@ export type LocalTechStack = {
   logo_key: string
 }
 
-export const projects: LocalProject[] = []
+export const projects: LocalProject[] = [
+  {
+    id: 'KielMusic',
+    title: 'KielMusic',
+    description: 'A refined music streaming app with an improved UI and smoother listening experience.', 
+    image_url: '/assets/projects/KielMusic.jpg',
+    technologies: 'Kotlin, Jetpack Compose, Android, Gradle',
+    key_features: 'Refined UI, smoother playback, bug fixes, improved usability',
+  },
+]
 
 
 export const techStacks: LocalTechStack[] = [
