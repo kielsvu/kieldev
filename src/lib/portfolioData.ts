@@ -22,7 +22,7 @@ export const projects: LocalProject[] = [
     id: 'KielMusic',
     title: 'KielMusic',
     description: 'A refined music streaming app with an improved UI and smoother listening experience.', 
-    image_url: '/assets/projects/JhnerMusic.jpg',
+    image_url: '/projects/JhnerMusic.jpg',
     technologies: 'Kotlin, Jetpack Compose, Android, Gradle',
     key_features: 'Refined UI, smoother playback, bug fixes, improved usability',
   },
