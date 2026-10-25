@@ -20,11 +20,10 @@
   padding: 0;
   box-sizing: border-box;
   caret-color: transparent;
-  /* REMOVED: user-select: none — was blocking all text selection site-wide */
 }
 
 html {
-  scroll-behavior: auto; /* JS handles scrolling; CSS smooth adds unwanted extra duration */
+  scroll-behavior: auto;
   scrollbar-width: none;
 }
 
@@ -37,7 +36,6 @@ body {
   -ms-overflow-style: none;
 }
 
-/* Re-enable selection only where it matters */
 p, h1, h2, h3, h4, h5, h6, span, a, li {
   user-select: text;
   -webkit-user-select: text;
@@ -49,7 +47,6 @@ input, textarea {
   -webkit-user-select: text;
 }
 
-/* Reduced motion — Framer Motion respects this via MotionConfig in layout.tsx */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
