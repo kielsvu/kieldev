@@ -11,7 +11,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        {/* Tells every Framer Motion animation to respect OS reduce-motion setting */}
         <MotionConfig reducedMotion="user">
           <RefreshRedirect />
           {children}
