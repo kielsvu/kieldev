@@ -7,7 +7,6 @@ import usePortfolio from '@/hooks/usePortfolio'
 import PortfolioCard from './PortfolioCard'
 import TechStackIcon from './TechStackIcon'
 
-/* Spring presets */
 const sp  = { type: 'spring' as const, bounce: 0,    duration: 0.5  }
 const spB = { type: 'spring' as const, bounce: 0.12, duration: 0.42 }
 
@@ -21,7 +20,6 @@ const cardVariants = {
   animate: { opacity: 1, y: 0  },
   exit:    { opacity: 0, y: -16 },
 }
-/* Tech cards use a single container stagger — one observer instead of N */
 const techContainer = {
   animate: { transition: { staggerChildren: 0.035 } },
 }
@@ -105,8 +103,7 @@ export default function PortfolioShowcase() {
             Explore my journey through projects and technical expertise.
           </p>
         </motion.div>
-
-        {/* Tab bar */}
+        
         <div className="flex justify-center mb-10">
           <div className="w-full max-w-3xl rounded-full border border-white/10 bg-white/[0.08] backdrop-blur-sm p-2 flex gap-2">
             {TABS.map((tab) => (
@@ -131,7 +128,6 @@ export default function PortfolioShowcase() {
             initial="initial" animate="animate" exit="exit"
             transition={sp}
           >
-            {/* ── Projects ── */}
             {activeTab === 'projects' && (
               <div className="space-y-8">
                 <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 px-1">
@@ -139,8 +135,6 @@ export default function PortfolioShowcase() {
                     {!loading && displayedProjects.map((item, i) => (
                       <motion.div
                         key={item.id}
-                        /* Removed: layout — triggers getBoundingClientRect on every card
-                           during add/remove, causing a measurable GPU spike */
                         variants={cardVariants}
                         initial="initial" animate="animate" exit="exit"
                         transition={{ ...spB, delay: i * 0.04 }}
@@ -185,10 +179,8 @@ export default function PortfolioShowcase() {
               </div>
             )}
 
-            {/* ── Tech Stack ── */}
             {activeTab === 'techstack' && (
               <div className="min-h-[360px] flex justify-center">
-                {/* Single whileInView on the container — not 22 individual observers */}
                 <motion.div
                   className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 max-w-5xl w-full"
                   variants={techContainer}
@@ -223,7 +215,6 @@ function TechCard({
   return (
     <motion.div
       variants={techItem}
-      /* No individual whileInView — parent container handles stagger */
       whileHover={hasHover ? { y: -5, transition: { type: 'spring', bounce: 0.2, duration: 0.28 } } : undefined}
       whileTap={{ scale: 0.96, transition: { type: 'spring', bounce: 0, duration: 0.14 } }}
       onHoverStart={() => hasHover && setHovered(true)}
@@ -231,8 +222,6 @@ function TechCard({
       className="group rounded-[24px] border border-white/10 bg-white/[0.07] flex flex-col items-center justify-center gap-3 h-[110px] sm:h-[125px] w-full max-w-[125px] mx-auto"
     >
       <div className="relative flex items-center justify-center [--tech-icon-bg:#080808]">
-        {/* Removed blur-2xl — Tailwind blur-2xl (40px) on every hovered card
-            caused significant GPU spikes. Simple opacity glow is GPU-free. */}
         {hovered && (
           <div className="absolute w-[56px] h-[56px] rounded-full bg-white/15 opacity-60" />
         )}
