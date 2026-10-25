@@ -6,7 +6,6 @@ import { Send, User, Mail, MessageSquare } from 'lucide-react'
 
 const sp = { type: 'spring' as const, bounce: 0, duration: 0.55 }
 
-/* Single parent stagger — removes 6 individual whileInView observers */
 const containerVariants = {
   hidden: {},
   show: { transition: { staggerChildren: 0.07, delayChildren: 0.05 } },
@@ -27,12 +26,9 @@ export default function ContactForm() {
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={sp}
-      /* once:true stops the re-trigger on scroll-back that made the card
-         appear "tilted" — it was animating from y:30 mid-viewport */
       viewport={{ once: true, amount: 0.15 }}
       className="rounded-[28px] border border-white/10 bg-white/[0.04] backdrop-blur-sm p-5 md:p-8 flex flex-col"
     >
-      {/* Stagger container — one IntersectionObserver for all fields */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -40,7 +36,6 @@ export default function ContactForm() {
         viewport={{ once: true, amount: 0.1 }}
         className="flex flex-col gap-4"
       >
-        {/* Header */}
         <motion.div variants={fieldVariants}>
           <h2 className="text-2xl md:text-3xl font-bold mb-3">Contact Me</h2>
           <p className="text-sm text-white/50 mb-3">
@@ -49,7 +44,6 @@ export default function ContactForm() {
           </p>
         </motion.div>
 
-        {/* Name */}
         <motion.div variants={fieldVariants} className="relative">
           <User className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" size={16} />
           <input
@@ -59,7 +53,6 @@ export default function ContactForm() {
           />
         </motion.div>
 
-        {/* Email */}
         <motion.div variants={fieldVariants} className="relative">
           <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" size={16} />
           <input
@@ -70,7 +63,6 @@ export default function ContactForm() {
           />
         </motion.div>
 
-        {/* Message */}
         <motion.div variants={fieldVariants} className="relative">
           <MessageSquare className="absolute left-4 top-5 text-white/40" size={16} />
           <textarea
@@ -81,7 +73,6 @@ export default function ContactForm() {
           />
         </motion.div>
 
-        {/* Send — feedback on press (whileTap), not hover */}
         <motion.div variants={fieldVariants}>
           <motion.button
             whileTap={{ scale: 0.97, transition: { type: 'spring', bounce: 0, duration: 0.14 } }}
